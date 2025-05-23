@@ -11,7 +11,7 @@ public class ClassicSuit implements Suit{
 
 
     @Override
-    public Suit clonce() {
+    public Suit clone() {
 
         try{
             return (Suit) super.clone();
