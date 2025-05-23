@@ -1,3 +1,4 @@
+package service.pricing.strategy;
 public class LoyalityPricing implements PricingStrategy{
 
     @Override

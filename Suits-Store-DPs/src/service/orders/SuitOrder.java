@@ -1,3 +1,7 @@
+package service.orders;
+import service.pricing.strategy.PricingStrategy;
+import service.pricing.strategy.RegularPricing;
+
 public abstract class SuitOrder {
 
     public boolean getDescription;
@@ -16,4 +20,8 @@ public abstract class SuitOrder {
         return description;
     }
     public abstract double calculateCost();
+
+    public PricingStrategy getPricing(){
+        return pricing;
+    }
 }

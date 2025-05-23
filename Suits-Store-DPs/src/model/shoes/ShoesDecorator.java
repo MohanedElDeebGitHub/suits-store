@@ -1,3 +1,8 @@
+package model.shoes;
+
+import model.suit.SuitDecorator;
+import service.orders.SuitOrder;
+
 public class ShoesDecorator extends SuitDecorator {
     public ShoesDecorator(SuitOrder DecoretedSuit) {
         super(DecoretedSuit);

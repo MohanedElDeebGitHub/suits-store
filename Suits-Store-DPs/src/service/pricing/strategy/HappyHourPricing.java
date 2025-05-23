@@ -1,3 +1,4 @@
+package service.pricing.strategy;
 public class HappyHourPricing implements    PricingStrategy{
 
 

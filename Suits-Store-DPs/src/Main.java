@@ -1,6 +1,15 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import model.shoes.ShoesDecorator;
+import model.suit.BasicSuit;
+import model.suit.ClassicSuit;
+import model.suit.Suit;
+import model.suit.SuitDecorator;
+import service.orders.OrderManager;
+import service.orders.SuitOrder;
+import service.pricing.strategy.HappyHourPricing;
+
 public class Main {
     private Map<String, Suit> menu = new HashMap<>();
 

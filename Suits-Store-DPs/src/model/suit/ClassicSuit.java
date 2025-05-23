@@ -1,3 +1,4 @@
+package model.suit;
 public class ClassicSuit implements Suit{
     private String size;
 

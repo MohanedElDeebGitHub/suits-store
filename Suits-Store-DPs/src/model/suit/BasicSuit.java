@@ -1,3 +1,7 @@
+package model.suit;
+
+import service.orders.SuitOrder;
+
 public class BasicSuit extends SuitOrder{
 
     public BasicSuit() {
