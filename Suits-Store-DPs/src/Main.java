@@ -9,7 +9,7 @@ public class Main {
 
 /*
 
-    Signleton, Decorator
+    Signleton, Decorator, Strategy
 
 
 

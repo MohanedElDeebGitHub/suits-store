@@ -1,6 +1,8 @@
 package model.suit;
 
-public class BasicSuit implements Suit{
+import model.product.Product;
+
+public class BasicSuit implements Suit, Product{
     private String description = "suit from our store";
     private double cost = 120;
 
