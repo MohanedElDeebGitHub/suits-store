@@ -12,6 +12,7 @@ public class BasicSuit implements Suit, Product{
         return description;
     }
 
+
     @Override
     public double getCost() {
         return cost;
