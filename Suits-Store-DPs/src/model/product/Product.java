@@ -1,5 +1,8 @@
 package model.product;
 
-public interface Product {
+import model.Prototype;
+
+public interface Product extends Prototype{
     public double getCost();
+
 }

@@ -10,7 +10,7 @@ public class Main {
 /*
 
     Signleton, Decorator, Strategy, prototype, builder
-    proxy, state
+    proxy, state, adapter, command, facade
 
 
 

@@ -1,4 +1,4 @@
-package model.cart;
+package model;
 
 public interface Prototype {
     public Prototype clone();

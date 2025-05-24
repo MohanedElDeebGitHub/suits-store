@@ -18,4 +18,12 @@ public class BasicSuit implements Suit, Product{
         return cost;
     }
     
+    public BasicSuit clone(){
+        try{
+            return (BasicSuit) super.clone();
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }
