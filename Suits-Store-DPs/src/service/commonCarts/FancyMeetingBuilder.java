@@ -5,7 +5,7 @@ import java.util.List;
 import model.suit.BasicSuit;
 import model.suit.FancySuit;
 
-public class FancyMettingBuilder implements SuitCartBuilder{
+public class FancyMeetingBuilder implements SuitCartBuilder{
     private List<FancySuit> fancySuitList;
     private List<BasicSuit> normalSuitList;
 

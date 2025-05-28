@@ -1,8 +1,18 @@
+import view.auth.Login;
+import view.store.Shopping;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("test");
+//        Login login = new Login();
+//        login.setContentPane(login.loginFrame);
+//        login.setSize(500, 500);
+//        login.setVisible(true);
 
+        SwingUtilities.invokeLater(() -> {
+            new Shopping().setVisible(true);
+        });
     }
 }
 

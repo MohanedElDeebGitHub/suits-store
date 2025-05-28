@@ -1,6 +1,9 @@
 package model.suit;
 
-public class FancySuit extends SuitDecorator{
+import model.Prototype;
+import model.product.Product;
+
+public class FancySuit extends SuitDecorator implements Suit, Product {
 
     public FancySuit(Suit suit) {
         super(suit);
@@ -12,5 +15,10 @@ public class FancySuit extends SuitDecorator{
 
     public String getDescription(){
         return super.getDescription() + " that is fancy";
+    }
+
+    @Override
+    public Prototype clone() {
+        return null;
     }
 }
