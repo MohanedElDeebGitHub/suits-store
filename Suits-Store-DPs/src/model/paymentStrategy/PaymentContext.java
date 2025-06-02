@@ -9,6 +9,7 @@ public class PaymentContext {
 
     public PaymentContext(PaymentStrategy paymentStrategy){
         this.paymentStrategy = paymentStrategy;
+        this.payState = new PendingPayState(); // Default state
     }
 
     public PaymentStrategy getPaymentStrategy(){
@@ -27,4 +28,12 @@ public class PaymentContext {
     public void payState(){
         payState.payState();
     }
+    public void setPayState(PayState state) {
+        this.payState = state;
+    }
+    public PayState getPayState() {
+        return this.payState;
+    }
+
+
 }
