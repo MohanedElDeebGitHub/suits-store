@@ -1,0 +1,326 @@
+@startuml
+!theme plain
+
+' Package structure
+package "model" {
+    interface Prototype {
+        +clone() : Prototype
+    }
+    
+    package "product" {
+        interface Product extends Prototype {
+            +getCost() : double
+        }
+    }
+    
+    package "suit" {
+        interface Suit {
+            +getDescription() : String
+            +getCost() : double
+        }
+        
+        class BasicSuit implements Suit, Product {
+            -description : String
+            -cost : double
+            +BasicSuit()
+            +getDescription() : String
+            +getCost() : double
+            +clone() : BasicSuit
+        }
+        
+        abstract class SuitDecorator {
+            -suit : Suit
+            +SuitDecorator(Suit suit)
+            +getDescription() : String
+            +getCost() : double
+        }
+        
+        class FancySuit extends SuitDecorator implements Suit, Product {
+            +FancySuit(Suit suit)
+            +getCost() : double
+            +getDescription() : String
+            +clone() : Prototype
+        }
+        
+        class TayloredSuit extends SuitDecorator implements Product, Suit {
+            +TayloredSuit(Suit suit)
+            +getCost() : double
+            +getDescription() : String
+            +clone() : Prototype
+        }
+    }
+    
+    package "cart" {
+        class ShoppingCart implements Prototype {
+            -productList : List<Product>
+            -{static} cart : ShoppingCart
+            -ShoppingCart()
+            +{static} getInstance() : ShoppingCart
+            +clone() : ShoppingCart
+            +getProductList() : List<Product>
+        }
+    }
+    
+    package "paymentStrategy" {
+        interface PaymentStrategy {
+            +pay(double amount) : void
+        }
+        
+        class CreditCardPayment implements PaymentStrategy {
+            +pay(double amount) : void
+        }
+        
+        class PayPalPayment implements PaymentStrategy {
+            +pay(double amount) : void
+        }
+        
+        class FailedPayState implements PayState {
+            +payState() : void
+        }
+        
+        class PaymentContext {
+            -paymentStrategy : PaymentStrategy
+            -payState : PayState
+            +PaymentContext(PaymentStrategy paymentStrategy)
+            +getPaymentStrategy() : PaymentStrategy
+            +setPaymentStrategy(PaymentStrategy paymentStrategy) : void
+            +pay(double amount) : void
+            +payState() : void
+            +setPayState(PayState state) : void
+            +getPayState() : PayState
+        }
+        
+        package "payStates" {
+            interface PayState {
+                +payState() : void
+            }
+            
+            class PendingPayState implements PayState {
+                +payState() : void
+            }
+            
+            class DonePayState implements PayState {
+                +payState() : void
+            }
+        }
+        
+        package "specialPay" {
+            class Instapay {
+                +pay(double amount, String bankToPayfrom) : void
+            }
+            
+            class InstapayAdapter implements PaymentStrategy {
+                -instapay : Instapay
+                -bank : String
+                +InstapayAdapter(Instapay instapay, String bank)
+                +pay(double amount) : void
+            }
+        }
+    }
+}
+
+package "service" {
+    package "commonCarts" {
+        interface SuitCartBuilder {
+            +buildSetOfFancySuits() : void
+            +buildSetOfNormalSuits() : void
+        }
+        
+        class FancyMeetingBuilder implements SuitCartBuilder {
+            -fancySuitList : List<FancySuit>
+            -normalSuitList : List<BasicSuit>
+            +buildSetOfFancySuits() : void
+            +buildSetOfNormalSuits() : void
+        }
+        
+        class CommonCartsDirector {
+            -suitCartBuilder : SuitCartBuilder
+            +CommonCartsDirector(SuitCartBuilder suitCartBuilder)
+            +buildCart() : void
+        }
+    }
+    
+    package "connectionProxy" {
+        interface DatabaseAccess {
+            +verifyCredentials() : boolean
+            +getSecureUsername() : String
+            +getSecurePassword() : String
+        }
+        
+        class RealDatabaseAccessVerifier implements DatabaseAccess {
+            -username : String
+            -password : String
+            -secureUsername : String
+            -securePassword : String
+            +RealDatabaseAccessVerifier(String username, String password)
+            +verifyCredentials() : boolean
+            +getSecurePassword() : String
+            +getSecureUsername() : String
+        }
+        
+        class DatabaseAccessProxy implements DatabaseAccess {
+            -realDatabaseAccessVerifier : RealDatabaseAccessVerifier
+            -username : String
+            -password : String
+            -secureUsername : String
+            -securePassword : String
+            +DatabaseAccessProxy(String username, String password)
+            +connect() : RealDatabaseAccessVerifier
+            +verifyCredentials() : boolean
+            +getSecurePassword() : String
+            +getSecureUsername() : String
+        }
+    }
+    
+    package "OrderQOLServices" {
+        interface Command {
+            +execute() : void
+        }
+        
+        class SameOrderAddition implements Command {
+            -product : Product
+            +SameOrderAddition(Product product)
+            +execute() : void
+        }
+        
+        class QOLInvoker {
+            -command : Command
+            +setCommand(Command command) : void
+            +execute() : void
+        }
+    }
+    
+    package "middleware" {
+        class SystemsHandler {
+            -cardInfo : String
+            -product : Product
+            +validateEntireSystem(String cardInfo, Product product) : boolean
+        }
+    }
+    
+    package "payValidator" {
+        class PayValidator {
+            +{static} isUsable(String cardInfo) : boolean
+        }
+    }
+    
+    package "productValidator" {
+        class ProductValidator {
+            +{static} doesProductExist(Product product) : boolean
+        }
+    }
+}
+
+package "view" {
+    package "auth" {
+        class Login extends JFrame {
+            +loginFrame : JPanel
+            -usernameInput : JTextField
+            -passwordField : JTextField
+            -loginButton : JButton
+            -createAccountButton : JButton
+            +Login()
+        }
+        
+        class Register extends JFrame {
+            -fullNameText : JLabel
+            +registerPanel : JPanel
+            -accountNameText : JLabel
+            -accountPasswordText : JLabel
+            -fullNameInput : JTextField
+            -accountNameInput : JTextField
+            -accountPasswordInput : JTextField
+            -createNewAccountButton : JButton
+            -loginButton : JButton
+            +Register()
+        }
+    }
+    
+    package "store" {
+        class Shopping extends JFrame {
+            -{static} WINDOW_WIDTH : int
+            -{static} WINDOW_HEIGHT : int
+            -{static} MAX_ORDER_HISTORY : int
+            -mainPanel : JPanel
+            -suitsPanel : JPanel
+            -viewTogglePanel : JPanel
+            -historyBtn : JButton
+            -suitItemPanels : List<SuitItemPanel>
+            -cart : List<Suit>
+            -orderHistory : List<String>
+            -gridView : boolean
+            +Shopping()
+            -initializeFrame() : void
+            -setupMainPanel() : void
+            -initializeViewTogglePanel() : void
+            -initializeSuitsPanel() : void
+            -setupBottomPanel() : void
+            -showCart() : void
+            -checkout() : void
+            -calculateTotal() : double
+        }
+        
+        class "Shopping$SuitItemPanel" as SuitItemPanel {
+            -currentStage : SuitStage
+            -descLabel : JLabel
+            -priceLabel : JLabel
+            -baseName : String
+            +SuitItemPanel(String baseName, SuitStage startingStage)
+            -addSuitToCart() : void
+            -cycleStage() : void
+            -getSuitForStage() : Suit
+            -updateDisplay() : void
+        }
+        
+        enum "Shopping$SuitStage" as SuitStage {
+            BASIC
+            FANCY
+            TAYLORED
+        }
+    }
+    
+    class Cart extends JFrame {
+        -mainPanel : JPanel
+        -itemList : JList<String>
+        -buttonPanel : JPanel
+        -panel1 : JPanel
+        -cartBtn : JButton
+        -checkoutBtn : JButton
+        -continueShoppingBtn : JButton
+        -cartItems : List<Suit>
+        +Cart(List<Suit> items)
+        -initComponents() : void
+        -loadCartItems() : void
+        -setupActions() : void
+    }
+    
+    class Checkout extends JFrame {
+        -mainPanel1 : JPanel
+        -buttonPanel : JPanel
+        -creditCardBtn : JButton
+        -paypalBtn : JButton
+        -cancelBtn : JButton
+        -totalLabel : JLabel
+        -totalAmount : double
+        -Checkout : JPanel
+        +Checkout(double total)
+        -initializeUI() : void
+        -setupButtonActions() : void
+        -processPayment(PaymentStrategy strategy) : void
+    }
+}
+
+class Main {
+    +main(String[] args) : void
+}
+
+' Relationships remain the same as before
+Main --> Shopping : creates
+Shopping --> Cart : opens
+Shopping --> Checkout : opens
+Shopping --> SuitItemPanel : contains
+SuitItemPanel --> SuitStage : uses
+SuitItemPanel --> Suit : creates
+
+' ... other relationships
+@enduml
